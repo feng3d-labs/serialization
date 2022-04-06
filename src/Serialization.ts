@@ -1,4 +1,4 @@
-import { ArrayUtils, classUtils, gPartial, objectIsEmpty, __class__ } from '@feng3d/polyfill';
+import { ArrayUtils, classUtils, gPartial, ObjectUtils, __class__ } from '@feng3d/polyfill';
 
 /**
  * 序列化装饰器
@@ -232,7 +232,7 @@ export class Serialization
      */
     deleteClassKey(obj: any)
     {
-        if (Object.isBaseType(obj)) return;
+        if (ObjectUtils.isBaseType(obj)) return;
 
         delete obj[__class__];
 
@@ -306,7 +306,7 @@ export class Serialization
      */
     setValue<T>(target: T, source: gPartial<T>)
     {
-        if (Object.isBaseType(source) || target === source) return target;
+        if (ObjectUtils.isBaseType(source) || target === source) return target;
         const handlers = this.setValueHandlers.sort((a, b) => b.priority - a.priority).map((v) => v.handler);
 
         const param: HandlerParam = { handlers, serialization: this };
@@ -363,7 +363,7 @@ serialization.serializeHandlers.push(
         {
             const spv = source[property];
 
-            if (Object.isBaseType(spv))
+            if (ObjectUtils.isBaseType(spv))
             {
                 target[property] = spv;
 
@@ -388,7 +388,7 @@ serialization.serializeHandlers.push(
                 const value = param.serializedMap.get(spv);
                 const tpv = value.target[value.property];
 
-                if (!Object.isBaseType(tpv))
+                if (!ObjectUtils.isBaseType(tpv))
                 {
                     if (!tpv[serializeRefKey])
                     {
@@ -502,7 +502,7 @@ serialization.serializeHandlers.push(
         {
             const spv = source[property];
 
-            if (Object.isObject(spv))
+            if (ObjectUtils.isObject(spv))
             {
                 const object = {};
 
@@ -546,7 +546,7 @@ serialization.serializeHandlers.push(
             }
 
             // 执行默认忽略默认值
-            if (objectIsEmpty(tpv) || tpv.constructor !== spv.constructor)
+            if (ObjectUtils.objectIsEmpty(tpv) || tpv.constructor !== spv.constructor)
             {
                 const className = classUtils.getQualifiedClassName(spv);
                 // 获取或创建对象默认实例，把默认实例保存在构造函数上省去使用map保存。
@@ -589,7 +589,7 @@ serialization.deserializeHandlers = [
         {
             const spv = source[property];
 
-            if (Object.isBaseType(spv))
+            if (ObjectUtils.isBaseType(spv))
             {
                 target[property] = spv;
 
@@ -655,7 +655,7 @@ serialization.deserializeHandlers = [
         {
             const spv = source[property];
 
-            if (!Object.isObject(spv) && !Array.isArray(spv))
+            if (!ObjectUtils.isObject(spv) && !Array.isArray(spv))
             {
                 target[property] = spv;
 
@@ -697,7 +697,7 @@ serialization.deserializeHandlers = [
             const tpv = target[property];
             const spv = source[property];
 
-            if (Object.isObject(spv) && objectIsEmpty(spv[__class__]))
+            if (ObjectUtils.isObject(spv) && ObjectUtils.objectIsEmpty(spv[__class__]))
             {
                 let obj = {};
 
@@ -799,7 +799,7 @@ serialization.differentHandlers = [
         priority: 0,
         handler(target, source, property, param)
         {
-            if (objectIsEmpty(source[property]))
+            if (ObjectUtils.objectIsEmpty(source[property]))
             {
                 param.different[property] = param.serialization.serialize(target[property]);
 
@@ -816,7 +816,7 @@ serialization.differentHandlers = [
         {
             const tpv = target[property];
 
-            if (Object.isBaseType(tpv))
+            if (ObjectUtils.isBaseType(tpv))
             {
                 param.different[property] = tpv;
 
@@ -931,7 +931,7 @@ serialization.setValueHandlers = [
             const tpv = target[property];
             const spv = source[property];
 
-            if (objectIsEmpty(tpv))
+            if (ObjectUtils.objectIsEmpty(tpv))
             {
                 target[property] = param.serialization.deserialize(spv);
 
@@ -948,7 +948,7 @@ serialization.setValueHandlers = [
         {
             const spv = source[property];
 
-            if (Object.isBaseType(spv))
+            if (ObjectUtils.isBaseType(spv))
             {
                 target[property] = spv;
 
@@ -990,7 +990,7 @@ serialization.setValueHandlers = [
         {
             const spv = source[property];
 
-            if (!Object.isObject(spv))
+            if (!ObjectUtils.isObject(spv))
             {
                 target[property] = param.serialization.deserialize(spv);
 
@@ -1008,7 +1008,7 @@ serialization.setValueHandlers = [
             const tpv = target[property];
             const spv = source[property];
 
-            if (Object.isObject(spv) && spv[__class__] === undefined)
+            if (ObjectUtils.isObject(spv) && spv[__class__] === undefined)
             {
                 console.assert(!!tpv);
                 const keys = Object.keys(spv);
