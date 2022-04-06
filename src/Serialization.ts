@@ -1,5 +1,4 @@
-import { classUtils, objectIsEmpty, __class__ } from '@feng3d/polyfill';
-import { gPartial } from '@feng3d/polyfill';
+import { ArrayUtils, classUtils, gPartial, objectIsEmpty, __class__ } from '@feng3d/polyfill';
 
 /**
  * 序列化装饰器
@@ -339,8 +338,8 @@ function getSerializableMembers(object: any, serializableMembers?: string[])
     }
     const serializePropertys = object[serializeKey];
 
-    if (serializePropertys) Array.concatToSelf(serializableMembers, serializePropertys);
-    Array.unique(serializableMembers);
+    if (serializePropertys) ArrayUtils.concatToSelf(serializableMembers, serializePropertys);
+    ArrayUtils.unique(serializableMembers);
 
     return serializableMembers;
 }
