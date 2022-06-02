@@ -639,8 +639,8 @@ serialization.deserializeHandlers = [
 
             if (spv && spv[__class__] === 'function')
             {
-                console.assert(`function 序列化使用了eval，编译警告，暂时注释掉！`);
-                // target[property] = eval(`(${spv.data})`);
+                // eslint-disable-next-line no-eval
+                target[property] = eval(`(${spv.data})`);
 
                 return true;
             }
