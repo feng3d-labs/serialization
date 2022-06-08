@@ -28,17 +28,17 @@ import { serialization, Serialization } from '../src';
 //     }
 // }
 
-class LoopA
-{
-    a: LoopA;
-    aArr: LoopA[];
+// class LoopA
+// {
+//     a: LoopA;
+//     aArr: LoopA[];
 
-    constructor()
-    {
-        this.a = this;
-        this.aArr = [this, this, this, this];
-    }
-}
+//     constructor()
+//     {
+//         this.a = this;
+//         this.aArr = [this, this, this, this];
+//     }
+// }
 
 describe('Serialization', () =>
 {
