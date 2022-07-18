@@ -15,7 +15,7 @@
     },
     "references": [
         {
-            "path": "../polyfill/tsconfig.json"
+            "path": "../polyfill"
         }
     ],
     "files": [
