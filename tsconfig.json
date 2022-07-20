@@ -13,12 +13,8 @@
         ],
         "outFile": "dist/index.js"
     },
-    "references": [
-        {
-            "path": "../polyfill"
-        }
-    ],
     "files": [
+        "../polyfill/index.d.ts",
         //
         "src/Serialization.ts",
     ]
