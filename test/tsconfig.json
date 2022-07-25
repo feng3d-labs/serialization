@@ -1,9 +1,0 @@
-{
-    "compilerOptions": {
-        "experimentalDecorators": true,
-        "noEmit": true
-    },
-    "include": [
-        "**/*.ts"
-    ],
-}
