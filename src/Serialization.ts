@@ -1,4 +1,4 @@
-import { ArrayUtils, classUtils, gPartial, ObjectUtils, __class__ } from '@feng3d/polyfill';
+import { gPartial, ObjectUtils, __class__, ArrayUtils, classUtils } from '@feng3d/polyfill';
 
 /**
  * 序列化装饰器
@@ -737,7 +737,11 @@ serialization.deserializeHandlers = [
                 }
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
-                inst.deserialize(spv);
+                const result = inst.deserialize(spv);
+                if (result)
+                {
+                    inst = result;
+                }
                 target[property] = inst;
 
                 return true;
@@ -1057,19 +1061,20 @@ serialization.setValueHandlers = [
     },
 ];
 
-// [Float32Array, Float64Array, Int8Array, Int16Array, Int32Array, Uint8Array, Uint16Array, Uint32Array, Uint8ClampedArray].forEach(element =>
-// {
-//     element.prototype["serialize"] = function (object: { value: number[] })
-//     {
-//         object.value = Array.from(this);
-//         return object;
-//     }
+[Float32Array, Float64Array, Int8Array, Int16Array, Int32Array, Uint8Array, Uint16Array, Uint32Array, Uint8ClampedArray].forEach((element) =>
+{
+    element.prototype['serialize'] = function (object: { value: number[] })
+    {
+        object.value = Array.from(this);
 
-//     element.prototype["deserialize"] = function (object: { value: number[] })
-//     {
-//         return new (this.constructor as any)(object.value);
-//     }
-// });
+        return object;
+    };
+
+    element.prototype['deserialize'] = function (object: { value: number[] })
+    {
+        return new (this.constructor as any)(object.value);
+    };
+});
 
 const serializeRefKey = '__serialize__Ref__';
 const serializeIsRefKey = '__serialize__IsRef__';

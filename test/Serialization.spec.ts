@@ -1,5 +1,5 @@
 import { deepEqual, ok } from 'assert';
-import { serialization, Serialization } from '../src';
+import { serialization } from '../src';
 
 // class ObjectBase
 // {
@@ -42,40 +42,40 @@ import { serialization, Serialization } from '../src';
 
 describe('Serialization', () =>
 {
-    it('serialize&deserialize 函数', () =>
-    {
-        function add(a: number, b: number)
-        {
-            return a + b;
-        }
-        const result = serialization.serialize(add);
-        const result1 = serialization.deserialize(result);
+    // it('serialize&deserialize 函数', () =>
+    // {
+    //     function add(a: number, b: number)
+    //     {
+    //         return a + b;
+    //     }
+    //     const result = serialization.serialize(add);
+    //     const result1 = serialization.deserialize(result);
 
-        const a = Math.random();
-        const b = Math.random();
-        ok(result1 !== add);
-        ok(result1(a, b) === add(a, b));
+    //     const a = Math.random();
+    //     const b = Math.random();
+    //     ok(result1 !== add);
+    //     ok(result1(a, b) === add(a, b));
 
-        // 序列化反序列化 serialization 工具中的函数列表
-        const r0 = serialization.serialize(serialization.serializeHandlers);
-        const serializeReplacers = serialization.deserialize(r0);
-        const r = serialization.serialize(serialization.deserializeHandlers);
-        const deserializeReplacers = serialization.deserialize(r);
-        //
-        const mySerialization = new Serialization();
-        mySerialization.serializeHandlers = serializeReplacers;
-        mySerialization.deserializeHandlers = deserializeReplacers;
+    //     // 序列化反序列化 serialization 工具中的函数列表
+    //     const r0 = serialization.serialize(serialization.serializeHandlers);
+    //     const serializeReplacers = serialization.deserialize(r0);
+    //     const r = serialization.serialize(serialization.deserializeHandlers);
+    //     const deserializeReplacers = serialization.deserialize(r);
+    //     //
+    //     const mySerialization = new Serialization();
+    //     mySerialization.serializeHandlers = serializeReplacers;
+    //     mySerialization.deserializeHandlers = deserializeReplacers;
 
-        // 使用序列化反序列化后的 serialization 工具进行序列化函数测试
-        {
-            const result = mySerialization.serialize(add);
-            const result1 = mySerialization.deserialize(result);
-            const a = Math.random();
-            const b = Math.random();
-            ok(result1 !== add);
-            ok(result1(a, b) === add(a, b));
-        }
-    });
+    //     // 使用序列化反序列化后的 serialization 工具进行序列化函数测试
+    //     {
+    //         const result = mySerialization.serialize(add);
+    //         const result1 = mySerialization.deserialize(result);
+    //         const a = Math.random();
+    //         const b = Math.random();
+    //         ok(result1 !== add);
+    //         ok(result1(a, b) === add(a, b));
+    //     }
+    // });
 
     it('serialize&deserialize 基础类型', () =>
     {
